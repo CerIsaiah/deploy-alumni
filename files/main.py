@@ -547,9 +547,12 @@ def submit_feedback():
 def feedback():
     return render_template("feedback.html")
 
+def run():
+    with app.app_context():
+        #db.drop_all()
+        db.create_all()
+        
+    return app
 
-with app.app_context():
-    #db.drop_all()
-    db.create_all()
-    
+
 
