@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job and Alumni Finder</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #ffffff; /* New background color */
+            color: #393E41; /* Keeping the text color */
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #D62828; /* New header background color */
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+        }
+        .header img {
+            height: 40px;
+        }
+        .header .login-button {
+            background-color: #003049; /* New login button color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+        }
+        .header .login-button:hover {
+            background-color: #D62828; /* New login button hover color */
+        }
+        .main-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /*background-image: url('static/search.png'); Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 80vh;
+            position: relative;
+            text-align: center;
+            color: rgb(63, 59, 59);
+        }
+        .main-section h1 {
+            font-size: 48px;
+            margin: 0;
+        }
+        .main-section h4 {
+            font-size: 20px;
+            margin: 0;
+            margin-top: 40px;
+            color: #003049
+        }
+        .main-section p {
+            font-size: 24px;
+            color: #FCBF49;
+            
+        }
+        .overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+        }
+        .title-description-container {
+            text-align: center;
+            margin-bottom: 0px;
+        }
+        .title-description-container h1 {
+            font-size: 58px;
+            margin: 0;
+            color: #D62828; /* Keeping the title color */
+        }
+        .title-description-container p {
+            font-size: 32px;
+            color: #003049;
+            font-weight: bold;
+        }
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .search-boxes {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-box, .dropdown {
+            display: flex;
+            align-items: center;
+            border: 2px solid #000000; /* New search box border color */
+            border-radius: 5px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .search-box input, .dropdown select {
+            border: none;
+            outline: none;
+            font-size: 18px;
+            background: none;
+        }
+        .dropdown select {
+            padding: 5px;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .button-container #find-jobs-btn {
+            background-color: #F77F00; /* New find jobs button color */
+            color: white;
+        }
+        .button-container #find-jobs-btn:hover {
+            background-color: #D62828; /* New find jobs button hover color */
+        }
+        .button-container #find-alumni-btn {
+            background-color: #003049;
+            color: white;
+        }
+        .button-container #find-alumni-btn.active {
+            background-color: #F77F00; /* New active alumni button color */
+        }
+        .button-container #find-alumni-btn:hover.active {
+            background-color: #D62828; /* New active alumni button hover color */
+        }
+        .benefits-section {
+            background-color: #47606e; /* New benefits section background color */
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .benefits-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .benefit {
+            flex: 1 1 calc(33.333% - 40px);
+            background: #F77F00; /* New benefit background color */
+            padding: 20px;
+            border-radius: 5px;
+            box-sizing: border-box;
+            min-width: 250px;
+        }
+        .benefit h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .benefit p {
+            font-size: 18px;
+            color: #003049;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            color: white;
+            font-size: 24px;
+            display: none;
+        }
+        .blinking {
+            animation: blinker 2s linear infinite;
+        }
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #000000;
+            width: 80%;
+            max-width: 500px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .login-button-modal {
+            display: block;
+            width: 100%;
+            background-color: #000000; /* New login button modal color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+        .notification {
+            display: none;
+            background-color: #F77F00;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+        .error {
+            background-color: #f44336;
+            color: white;
+        }
+        /* Media query for small screens */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                font-size: 18px;
+            }
+            .header .login-button {
+                margin-top: 10px;
+            }
+            .main-section {
+                padding: 20px;
+                height: auto;
+            }
+            .main-section h1 {
+                font-size: 32px;
+            }
+            .main-section h4 {
+                font-size: 16px;
+            }
+            .main-section p {
+                font-size: 18px;
+            }
+            .title-description-container h1 {
+                font-size: 32px;
+            }
+            .title-description-container p {
+                font-size: 18px;
+            }
+            .search-boxes {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .button-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .benefit {
+                flex: 1 1 100%;
+                min-width: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>Job and Alumni Finder</div>
+        <a href="#" id="logout-btn" class="login-button" style="display: none;">Logout</a>
+        <a href="/login" id="login-btn" class="login-button">Login</a>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login Required</h2>
+            <p>You need to login to use this feature.</p>
+            <a href="/login" class="login-button-modal">Login with Google</a>
+        </div>
+    </div>
+
+    <div class="main-section">
+        <div class="title-description-container">
+            <h1>Are You a Student Looking For a Internship/Job?</h1>
+            <p>Gain access to insiders at companies hiring NOW</p>
+        </div>
+        <div class="search-container">
+            <div class="search-boxes">
+                <div class="search-box">
+                    <input type="text" id="search-term" placeholder="Enter job you want">
+                </div>
+                <div class="search-box">
+                    <input type="text" id="school-name" placeholder="Enter your school name" value="Colgate University">
+                </div>
+                <div class="dropdown">
+                    <select id="job-type">
+                        <option value="internship">Internship</option>
+                        <option value="fulltime">Full-Time</option>
+                        <option value="parttime">Part-Time</option>
+                    </select>
+                </div>
+            </div>
+            <div class="button-container">
+                <button id="find-jobs-btn">Find Jobs</button>
+                <button id="find-alumni-btn" disabled>Find Alumni</button>
+            </div>
+        </div>
+        <h4>Jobs are sourced from all across the web including popular student sites like HANDSHAKE, INDEED, and GLASSDOOR</h4>
+    </div>
+    
+    <div class="benefits-section">
+        <div class="benefits-container">
+            <div class="benefit">
+                <h3>More Connections. Better Jobs. More Money.</h3>
+                <p>Building your network is essential to get access to better jobs and more <strong>money</strong></p>
+            </div>
+            <div class="benefit">
+                <h3>Sourced across the Web</h3>
+                <p> Jobs are sourced from all across the web including popular student sites like <strong>HANDSHAKE, INDEED, and GLASSDOOR</strong> </p>
+            </div>
+            <div class="benefit">
+                <h3>Get More Interviews</h3>
+                <p>Our connection tool is designed to only find <strong>recent</strong> jobs that are hiring</p>
+            </div>
+            <div class="benefit">
+                <h3>Connect Faster</h3>
+                <p>Using our tool, copy templated responses proven to get Linkedin responses </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="overlay" class="overlay">
+        <span id="overlayText">Loading...</span>
+    </div>
+  
+
+    <script>
+        let countdownInterval;
+
+        function showOverlay(message, duration) {
+            const overlay = document.getElementById('overlay');
+            const overlayText = document.getElementById('overlayText');
+            overlay.style.display = 'flex';
+            overlayText.textContent = `${message} Estimated time: ${duration} seconds`;
+
+            let remainingTime = duration;
+            countdownInterval = setInterval(() => {
+                remainingTime -= 1;
+                overlayText.textContent = `${message} Estimated time: ${remainingTime} seconds`;
+                if (remainingTime <= 0) {
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+        }
+
+        function hideOverlay() {
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'none';
+            clearInterval(countdownInterval);
+        }
+
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = isError ? 'notification error' : 'notification';
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+        }
+
+        async function checkSession() {
+            console.log('Checking session...');
+            const response = await fetch('/check_session');
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Session data:', data);
+                if (data.logged_in) {
+                    document.getElementById('login-btn').style.display = 'none';
+                    document.getElementById('logout-btn').style.display = 'inline-block';
+                    return true;
+                } else {
+                    document.getElementById('login-btn').style.display = 'inline-block';
+                    document.getElementById('logout-btn').style.display = 'none';
+                    return false;
+                }
+            } else {
+                console.error('Failed to check session');
+                return false;
+            }
+        }
+
+        document.getElementById('find-jobs-btn').addEventListener('click', async () => {
+            console.log('Find Jobs button clicked');
+            const searchTerm = document.getElementById('search-term').value.trim();
+            const jobType = document.getElementById('job-type').value;
+            const schoolName = document.getElementById('school-name').value.trim();
+
+            if (!searchTerm) {
+                showNotification('Please enter a search term.', true);
+                return;
+            }
+
+            if (!schoolName) {
+                showNotification('Please enter a school name.', true);
+                return;
+            }
+
+            const isLoggedIn = await checkSession();
+
+            if (isLoggedIn) {
+                console.log('User is logged in, proceeding with job search');
+                showOverlay('Finding jobs', 20);
+                const findJobsBtn = document.getElementById('find-jobs-btn');
+                findJobsBtn.disabled = true;
+                const response = await fetch('/search_jobs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ search_term: searchTerm, job_type: jobType, school_name: schoolName }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    hideOverlay();
+                    if (data.jobs && data.jobs.length > 0) {
+                        console.log('Jobs:', data.jobs);
+                        const findAlumniBtn = document.getElementById('find-alumni-btn');
+                        findAlumniBtn.disabled = false;
+                        findAlumniBtn.classList.add('active');
+                        findAlumniBtn.classList.add('blinking');
+                    } else {
+                        showNotification('No jobs found for the given search term.', true);
+                        findJobsBtn.disabled = false;
+                    }
+                } else {
+                    console.error('Error finding jobs');
+                    hideOverlay();
+                    showNotification('An error occurred while finding jobs. Please try again.', true);
+                    findJobsBtn.disabled = false;
+                }
+            } else {
+                console.log('User is not logged in, showing login modal');
+                document.getElementById('loginModal').style.display = 'block';
+            }
+        });
+
+        document.getElementById('find-alumni-btn').addEventListener('click', () => {
+            console.log('Find Alumni button clicked');
+            const searchTerm = document.getElementById('search-term').value;
+            const schoolName = document.getElementById('school-name').value;
+            window.location.href = `/results?search_term=${searchTerm}&school_name=${schoolName}`;
+        });
+
+        const modal = document.getElementById('loginModal');
+        const span = document.getElementsByClassName('close')[0];
+
+        span.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('load', async () => {
+            console.log('Window loaded');
+            const isLoggedIn = await checkSession();
+            if (!isLoggedIn) {
+                showNotification("Welcome! Please log in to use the search functionality.", false);
+            } 
+        });
+    </script>
+</body>
+</html>

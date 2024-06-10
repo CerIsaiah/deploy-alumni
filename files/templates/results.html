@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job and Alumni Results</title>
+    <style>
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.button {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
+}
+
+.button:hover {
+    background-color: #f0f0f0;
+}
+
+.button:active {
+    background-color: #e0e0e0;
+}
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f9f9;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            flex: 1;
+        }
+        .box {
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+            text-align: left;
+            margin: 10px;
+            width: 30%;
+            box-sizing: border-box;
+            position: relative;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .box h3 {
+            margin-top: 0;
+            font-size: 20px;
+            text-align: center;
+        }
+        .box p {
+            margin: 10px 0;
+        }
+        .box i {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        .box.red {
+            background-color: #D62828;
+        }
+        .box.yellow {
+            background-color: #FCBF49;
+            color: #333;
+        }
+        .box.green {
+            background-color: #F77F00;
+        }
+        .box a {
+            display: block;
+            
+            text-align: center;
+        }
+        .box button {
+            display: block;
+            
+            text-align: center;
+        }
+        .box h5 {
+            font-size: 18px;
+            text-align: center;
+        }
+        .arrow {
+            font-size: 40px;
+            margin: 0 5px;
+        }
+        .results-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Align to the left */
+            flex-wrap: nowrap;
+        }
+        .results-row .box {
+            flex: 1 1 auto;
+            margin: 10px;
+        }
+        .top-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin: 10px 10px 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .feedback-button {
+            width: 100px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        button#find-jobs-btn {
+            background-color: #F77F00;
+            color: white;
+        }
+        button#find-alumni-btn {
+            background-color: #003049;
+            color: white;
+        }
+        .notification {
+            display: none;
+            background-color: #F77F00;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .error {
+            background-color: #f44336;
+            color: white;
+        }
+        .blinking {
+            animation: blinker 2s linear infinite;
+        }
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            color: white;
+            font-size: 24px;
+            display: none;
+        }
+        .dashboard {
+            width: 250px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            overflow-y: auto;
+            z-index: 1002;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+        }
+        .dashboard h2 {
+            margin-top: 0;
+        }
+        .gauge-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+            display: flex;
+            justify-content: center; /* Center the gauge horizontally */
+            align-items: center; /* Center the gauge vertically */
+        }
+        .gauge {
+            height: 100%;
+            width: 100%;
+        }
+        .goal-container {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .goal-amount {
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .column-titles {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+        .column-title {
+            width: 30%;
+        }
+        @media (max-width: 768px) {
+        .dashboard {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .box {
+            width: 90%;
+        }
+        .results-row {
+            flex-direction: column;
+        }
+        .top-bar {
+            flex-direction: column;
+        }
+        input[type="text"] {
+            width: 90%;
+        }
+        .search-container {
+            flex-direction: column;
+        }
+        .arrow {
+            margin: 10px 0;
+        }
+    }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/eve.js/0.8.4/eve.min.js" integrity="sha512-FKlMg/J+rIndvRcg/k9sfRN5mLR6130qnp0XFYHnjqNiROfwFnFvqqBP00KqM2BTu8YKXsdImnGZ/A7C+A0qZg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js" integrity="sha512-tBzZQxySO5q5lqwLWfu8Q+o4VkTcRGOeQGVQ0ueJga4A1RKuzmAu5HXDOXLEjpbKyV7ow9ympVoa6wZLEzRzDg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.6.1/justgage.min.js" integrity="sha512-QeISJM4NCnUgZl5++o/2d4FwppF+Hh62RbNeA9paupnQvq5KAVvf2ZN3KD99EDoqcSHi1kbG13JMyRXDKBQBSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+</head>
+<body>
+    <div class="dashboard">
+        <h2>Dashboard</h2>
+        <p>Email: <span id="user-email"></span></p>
+        <p>Connections: <span id="user-connections"></span></p>
+        <p>Percentile: <span id="user-percentile"></span>%</p>
+        <div class="gauge-container">
+            <div id="gauge" class="gauge"></div>
+        </div>
+        <div class="goal-container">
+            Goal: <span id="goal-amount"></span> connections
+        </div>
+    </div>
+    <div class="container">
+        <div class="top-bar">
+            <h1>Job and Alumni Results</h1>
+            <div class="search-container">
+                <input type="text" id="search-term" placeholder="Enter search term">
+                <input type="text" id="school-name" placeholder="Enter school name" value="Colgate University">
+                <button id="find-jobs-btn">Find Jobs</button>
+                <button id="find-alumni-btn" disabled>Find Alumni</button>
+                <button onclick="window.location.href='/feedback'" class="feedback-button">Submit Feedback</button>
+            </div>
+        </div>
+        <div class="notification" id="notification">
+            Welcome! Use the search bar to find jobs and alumni.
+        </div>
+        <div id="results-container">
+            <div class="column-titles">
+                <h2 class="column-title">Job Details</h2>
+                <h2 class="column-title">Sample Connection Request</h2>
+                <h2 class="column-title">Current Insider Alumni</h2>
+            </div>
+            <!-- Job and alumni results will be appended here -->
+        </div>
+
+        <div id="overlay" class="overlay">
+            <span id="overlayText">Loading...</span>
+        </div>
+    </div>
+
+
+    <script>
+        const resultsContainer = document.getElementById('results-container');
+        const columnTitlesHTML = `
+            <div class="column-titles">
+                <h2 class="column-title">Job Details</h2>
+                <h2 class="column-title">Sample Connection Request</h2>
+                <h2 class="column-title">Current Insider Alumni</h2>
+            </div>
+        `;
+        let goalAmount = 5;
+        let countdownInterval;
+
+        function showOverlay(message, duration) {
+            const overlay = document.getElementById('overlay');
+            const overlayText = document.getElementById('overlayText');
+            if (overlay && overlayText) {
+                overlay.style.display = 'flex';
+                overlayText.textContent = `${message} Estimated time: ${duration} seconds`;
+
+                let remainingTime = duration;
+                countdownInterval = setInterval(() => {
+                    remainingTime -= 1;
+                    overlayText.textContent = `${message} Estimated time: ${remainingTime} seconds`;
+                    if (remainingTime <= 0) {
+                        clearInterval(countdownInterval);
+                    }
+                }, 1000);
+            }
+        }
+
+        function hideOverlay() {
+            const overlay = document.getElementById('overlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+                clearInterval(countdownInterval);
+            }
+        }
+
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = isError ? 'notification error' : 'notification';
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 10000);
+        }
+
+        function createJobBox(job) {
+            const jobBox = document.createElement('div');
+            jobBox.classList.add('box', 'red');
+
+            const icon = document.createElement('i');
+            icon.classList.add('fas', 'fa-search');
+            jobBox.appendChild(icon);
+
+            const details = job.description.split('\\').map(detail => detail.trim()).filter(detail => detail);
+            const [
+                companyName,
+                position,
+                lookingFor,
+                skillsRequired,
+                payRate,
+                specialRequirements
+            ] = details;
+
+            const companyNameElem = document.createElement('h3');
+            companyNameElem.textContent = companyName;
+            jobBox.appendChild(companyNameElem);
+
+            const positionElem = document.createElement('h4');
+            positionElem.textContent = position;
+            jobBox.appendChild(positionElem);
+
+            const description = document.createElement('p');
+            description.innerHTML = `
+                <strong>Looking for:</strong> ${lookingFor} <br>
+                <strong>Skills required:</strong> ${skillsRequired} <br>
+                <strong>Pay rate:</strong> ${payRate} <br>
+                <strong>Special requirements:</strong> ${specialRequirements} <br>
+            `;
+            jobBox.appendChild(description);
+
+            const link = document.createElement('a');
+            link.href = job.job_url_direct;
+            link.textContent = 'View Job';
+            link.target = '_blank';
+            jobBox.appendChild(link);
+
+            return jobBox;
+        }
+
+        function createSampleRequestBox(companyName) {
+            const sampleRequestBox = document.createElement('div');
+            sampleRequestBox.classList.add('box', 'yellow');
+
+            const icon = document.createElement('i');
+            icon.classList.add('fas', 'fa-lightbulb');
+            sampleRequestBox.appendChild(icon);
+
+            const sampleRequest = document.createElement('p');
+            sampleRequest.textContent = `Dear [Name], I came across your profile and noticed that you are currently working at ${companyName}. I am very interested in learning more about your experience and any opportunities available. Could we connect to discuss this further? Thank you!`;
+            sampleRequestBox.appendChild(sampleRequest);
+
+            return sampleRequestBox;
+        }
+
+        function createAlumniBox(alumni, companyName) {
+    const alumniBox = document.createElement('div');
+    alumniBox.classList.add('box', 'green');
+
+    const icon = document.createElement('i');
+    icon.classList.add('fas', 'fa-bullseye');
+    alumniBox.appendChild(icon);
+
+    alumni.forEach(person => {
+        const namePart = (person.name || person.title).split(' - ')[0];
+
+        const name = document.createElement('h5');
+        name.textContent = `Name: ${namePart}`;
+        alumniBox.appendChild(name);
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('button-container');
+
+        const link = document.createElement('a');
+        link.href = person.link;
+        link.textContent = 'View Profile';
+        link.target = '_blank';
+        link.classList.add('button');
+
+        const copyButton = document.createElement('button');
+        copyButton.textContent = 'Copy Request';
+        copyButton.classList.add('button');
+        copyButton.addEventListener('click', () => {
+            const sampleRequestText = `Dear ${namePart}, I came across your profile and noticed that you are currently working at ${companyName}. I am very interested in learning more about your experience and any opportunities available. Could we connect to discuss this further? Thank you!`;
+            navigator.clipboard.writeText(sampleRequestText).then(() => {
+                fetch('/update_connections', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        updateDashboard(data.connections, data.percentile, data.name);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating connections:', error);
+                    alert('An error occurred while updating connections');
+                });
+            });
+        });
+
+        buttonContainer.appendChild(link);
+        buttonContainer.appendChild(copyButton);
+        alumniBox.appendChild(buttonContainer);
+    });
+
+    return alumniBox;
+}
+
+        async function createFirstDashboard() {
+            try {
+                const response = await fetch('/create_first_dashboard', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    createDashboard(data.connections, data.percentile, data.name);
+                }
+            } catch (error) {
+                console.error('Error updating connections:', error);
+                alert('An error occurred while updating connections');
+            }
+        }
+
+        async function fetchJobsAndIndividuals(searchTerm, schoolName) {
+            showOverlay('Finding jobs and alumni', 22);
+            const response = await fetch('/search_jobs_and_individuals', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ search_term: searchTerm, school_name: schoolName }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                resultsContainer.innerHTML = columnTitlesHTML; // Clear previous results and keep titles
+
+                for (const company in data) {
+                    const jobs = data[company].job;
+                    const alumni = data[company].alumni;
+
+                    if (alumni.length > 0) {
+                        jobs.forEach(job => {
+                            const resultsRow = document.createElement('div');
+                            resultsRow.classList.add('results-row');
+
+                            const jobBox = createJobBox(job);
+                            resultsRow.appendChild(jobBox);
+
+                            const arrow1 = document.createElement('span');
+                            arrow1.classList.add('arrow');
+                            arrow1.textContent = '➡️';
+                            resultsRow.appendChild(arrow1);
+
+                            const sampleRequestBox = createSampleRequestBox(company);
+                            resultsRow.appendChild(sampleRequestBox);
+
+                            const arrow2 = document.createElement('span');
+                            arrow2.classList.add('arrow');
+                            arrow2.textContent = '➡️';
+                            resultsRow.appendChild(arrow2);
+
+                            const alumniBox = createAlumniBox(alumni, company);
+                            resultsRow.appendChild(alumniBox);
+
+                            resultsContainer.appendChild(resultsRow);
+                        });
+                    }
+                }
+
+                hideOverlay();
+            } else {
+                console.error('Error finding jobs and alumni');
+                hideOverlay();
+            }
+        }
+
+        async function checkSession() {
+            const response = await fetch('/check_session');
+            if (response.ok) {
+                const data = await response.json();
+                return data.logged_in;
+            } else {
+                console.error('Failed to check session');
+                return false;
+            }
+        }
+
+        document.getElementById('find-jobs-btn').addEventListener('click', async () => {
+            const searchTerm = document.getElementById('search-term').value.trim();
+            const schoolName = document.getElementById('school-name').value.trim();
+
+            if (!searchTerm) {
+                showNotification('Please enter a search term.', true);
+                return;
+            }
+
+            if (!schoolName) {
+                showNotification('Please enter a school name.', true);
+                return;
+            }
+
+            const isLoggedIn = await checkSession();
+
+            if (isLoggedIn) {
+                showOverlay('Finding jobs', 20);
+                const findJobsBtn = document.getElementById('find-jobs-btn');
+                findJobsBtn.disabled = true;
+                document.getElementById('find-alumni-btn').disabled = true;
+                const response = await fetch('/search_jobs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ search_term: searchTerm, school_name: schoolName }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    hideOverlay();
+                    if (data.jobs && data.jobs.length > 0) {
+                        document.getElementById('find-alumni-btn').disabled = false;
+                        document.getElementById('find-alumni-btn').classList.add('blinking');
+                    } else {
+                        showNotification('No jobs found for the given search term.', true);
+                        findJobsBtn.disabled = false;
+                    }
+                } else {
+                    console.error('Error finding jobs');
+                    hideOverlay();
+                    showNotification('An error occurred while finding jobs. Please try again.', true);
+                    findJobsBtn.disabled = false;
+                }
+            } else {
+                showNotification('Your session has expired. Please log in again.', true);
+            }
+        });
+
+        document.getElementById('find-alumni-btn').addEventListener('click', async () => {
+            const searchTerm = document.getElementById('search-term').value.trim();
+            const schoolName = document.getElementById('school-name').value.trim();
+
+            if (!searchTerm) {
+                showNotification('Please enter a search term.', true);
+                return;
+            }
+
+            if (!schoolName) {
+                showNotification('Please enter a school name.', true);
+                return;
+            }
+
+            const isLoggedIn = await checkSession();
+
+            if (isLoggedIn) {
+                const findAlumniBtn = document.getElementById('find-alumni-btn');
+                findAlumniBtn.disabled = false;
+                document.getElementById('find-jobs-btn').disabled = true;
+                await fetchJobsAndIndividuals(searchTerm, schoolName);
+
+                document.getElementById('find-jobs-btn').disabled = false;
+                document.getElementById('find-alumni-btn').classList.remove('blinking');
+                findAlumniBtn.disabled = true;
+            }
+        });
+
+        // Fetch jobs and alumni if redirected from the first page
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchTerm = urlParams.get('search_term');
+            const schoolName = urlParams.get('school_name');
+            if (searchTerm) {
+                document.getElementById('search-term').value = searchTerm;
+                document.getElementById('school-name').value = schoolName;
+                fetchJobsAndIndividuals(searchTerm, schoolName);
+                createFirstDashboard();
+                showNotification("Welcome! Use the search bar to find jobs and alumni.", false);
+            } else {
+                createFirstDashboard();
+                showNotification("Welcome! Use the search bar to find jobs and alumni.", false);
+            }
+        });
+        let gauge;
+        function updateDashboard(connections, percentile, name) {
+            document.getElementById('user-connections').textContent = connections;
+            document.getElementById('user-percentile').textContent = percentile.toFixed(3);
+            document.getElementById('user-email').textContent = name;
+            goalAmount = Math.ceil(connections / 5) * 5;
+            document.getElementById('goal-amount').textContent = goalAmount;
+           
+            gauge.config.max = goalAmount;
+            gauge.txtMaximum = `${goalAmount}`;
+            gauge.txtMax.attrs.text = `${goalAmount}`;
+            console.log(gauge.txtMax.attrs.text);
+            gauge.refresh(connections);
+        }
+
+        function createDashboard(connections, percentile, name) {
+            document.getElementById('user-connections').textContent = connections;
+            document.getElementById('user-percentile').textContent = percentile.toFixed(3);
+            document.getElementById('user-email').textContent = name;
+            goalAmount = Math.ceil(connections / 5) * 5;
+            document.getElementById('goal-amount').textContent = goalAmount;
+           
+            gauge.config.max = goalAmount;
+            gauge.txtMaximum = `${goalAmount}`;
+            gauge.txtMax.attrs.text = `${goalAmount}`;
+            console.log(gauge.txtMax.attrs.text);
+            gauge.refresh(connections);
+        }
+        
+        window.onload = function() {
+            gauge = new JustGage({
+                id: "gauge",
+                value: 0,
+                min: 0,
+                max: goalAmount,
+                title: "Connections",
+                label: "Connections",
+                levelColors: ["#ff0000", "#f9c802", "#a9d70b"]
+            });
+
+            // Fetch user data
+            fetch('/check_session')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.logged_in) {
+                        document.getElementById('user-email').textContent = sessionStorage.getItem('user_email');
+                        document.getElementById('user-connections').textContent = sessionStorage.getItem('user_connections');
+                        document.getElementById('user-percentile').textContent = sessionStorage.getItem('user_percentile');
+                        gauge.refresh(sessionStorage.getItem('user_connections'));
+                        const goalAmount = Math.ceil(sessionStorage.getItem('user_connections') / 5) * 5;
+                        document.getElementById('goal-amount').textContent = goalAmount;
+                    }
+                });
+        }
+    </script>
+</body>
+</html>
