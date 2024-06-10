@@ -14,7 +14,6 @@ import numpy as np
 import pandas as pd
 import datetime
 from authlib.integrations.flask_client import OAuth
-import json
 import uuid
 import os
 from dotenv import load_dotenv
@@ -547,12 +546,14 @@ def submit_feedback():
 def feedback():
     return render_template("feedback.html")
 
-def run():
+
+
+        
+if __name__ == "__main__":
     with app.app_context():
         #db.drop_all()
         db.create_all()
-        
-    return app
+    app.run(debug=True)
 
 
 
