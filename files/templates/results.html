@@ -14,14 +14,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job and Alumni Results</title>
     <style>
-
         .button-container {
             display: flex;
             justify-content: center;
             align-items: center;
             margin-top: 10px;
         }
-        
+    
         .button {
             background-color: #ffffff;
             border: 1px solid #cccccc;
@@ -34,497 +33,239 @@
             transition: background-color 0.3s ease;
             margin: 0 5px;
         }
-        
+    
         .button:hover {
             background-color: #f0f0f0;
         }
-        
+    
         .button:active {
             background-color: #e0e0e0;
         }
-        
-                body {
-                    font-family: Arial, sans-serif;
-                    padding: 20px;
-                    background-color: #f9f9f9;
-                    margin: 0;
-                    display: flex;
-                    flex-direction: column;
-                }
-                .container {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    text-align: center;
-                    flex: 1;
-                }
-                .box {
-                    border-radius: 10px;
-                    padding: 20px;
-                    color: white;
-                    text-align: left;
-                    margin: 10px;
-                    width: 30%;
-                    box-sizing: border-box;
-                    position: relative;
-                    font-size: 16px;
-                    line-height: 1.5;
-                }
-                .box h3 {
-                    margin-top: 0;
-                    font-size: 20px;
-                    text-align: center;
-                }
-                .box p {
-                    margin: 10px 0;
-                }
-                .box i {
-                    font-size: 40px;
-                    margin-bottom: 10px;
-                }
-                .box.red {
-                    background-color: #D62828;
-                }
-                .box.yellow {
-                    background-color: #FCBF49;
-                    color: #333;
-                }
-                .box.green {
-                    background-color: #F77F00;
-                }
-                .box a {
-                    display: block;
-                    
-                    text-align: center;
-                }
-                .box button {
-                    display: block;
-                    
-                    text-align: center;
-                }
-                .box h5 {
-                    font-size: 18px;
-                    text-align: center;
-                }
-                .arrow {
-                    font-size: 40px;
-                    margin: 0 5px;
-                }
-                .results-row {
-                    display: flex;
-                    align-items: center;
-                    justify-content: flex-start; /* Align to the left */
-                    flex-wrap: nowrap;
-                }
-                .results-row .box {
-                    flex: 1 1 auto;
-                    margin: 10px;
-                }
-                .top-bar {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    margin-bottom: 20px;
-                }
-                .search-container {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-                input[type="text"] {
-                    width: 300px;
-                    padding: 10px;
-                    margin: 10px 10px 10px 0;
-                    border-radius: 5px;
-                    border: 1px solid #ccc;
-                    box-sizing: border-box;
-                }
-                .feedback-button {
-                    width: 100px;
-                }
-                button {
-                    padding: 10px 20px;
-                    margin: 10px;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    box-sizing: border-box;
-                }
-                button:disabled {
-                    background-color: #ccc;
-                    cursor: not-allowed;
-                }
-                button#find-jobs-btn {
-                    background-color: #F77F00;
-                    color: white;
-                }
-                button#find-alumni-btn {
-                    background-color: #003049;
-                    color: white;
-                }
-                .notification {
-                    display: none;
-                    background-color: #F77F00;
-                    color: #333;
-                    padding: 10px;
-                    border-radius: 5px;
-                    margin-bottom: 20px;
-                    text-align: center;
-                    font-size: 16px;
-                    position: sticky;
-                    top: 0;
-                    z-index: 1000;
-                }
-                .error {
-                    background-color: #f44336;
-                    color: white;
-                }
-                .blinking {
-                    animation: blinker 2s linear infinite;
-                }
-                @keyframes blinker {
-                    50% { opacity: 0; }
-                }
-                .overlay {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.5);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 1005;
-                    color: white;
-                    font-size: 24px;
-                    display: none;
-                }
-                .dashboard {
-                    width: 250px;
-                    padding: 20px;
-                    background-color: #fff;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    height: 100%;
-                    overflow-y: auto;
-                    z-index: 100;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    text-align: center; /* Center content horizontally */
-                }
-                .dashboard h2 {
-                    margin-top: 0;
-                }
-                .gauge-container {
-                    position: relative;
-                    height: 200px;
-                    width: 100%;
-                    display: flex;
-                    justify-content: center; /* Center the gauge horizontally */
-                    align-items: center; /* Center the gauge vertically */
-                }
-                .gauge {
-                    height: 100%;
-                    width: 100%;
-                }
-                .goal-container {
-                    margin-top: 20px;
-                    font-size: 16px;
-                }
-                .goal-amount {
-                    font-weight: bold;
-                    font-size: 20px;
-                }
-                .column-titles {
-                    display: flex;
-                    justify-content: space-around;
-                    margin-bottom: 10px;
-                }
-                .column-title {
-                    width: 30%;
-                }
-                @media (max-width: 768px) {
-                .dashboard {
-                    position: relative;
-                    width: 100%;
-                    margin-bottom: 20px;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    text-align: center;
-                }
-                
-                .box {
-                    width: 90%;
-                }
-                .results-row {
-                    flex-direction: column;
-                }
-                .top-bar {
-                    flex-direction: column;
-                }
-                input[type="text"] {
-                    width: 90%;
-                }
-                .search-container {
-                    flex-direction: column;
-                }
-                .arrow {
-                    margin: 10px 0;
-                }
-            }
-            </style><style>
-    .button-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 10px;
-    }
-
-    .button {
-        background-color: #ffffff;
-        border: 1px solid #cccccc;
-        border-radius: 5px;
-        padding: 5px 10px;
-        text-align: center;
-        text-decoration: none;
-        color: #000;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        margin: 0 5px;
-    }
-
-    .button:hover {
-        background-color: #f0f0f0;
-    }
-
-    .button:active {
-        background-color: #e0e0e0;
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        padding: 20px;
-        background-color: #f9f9f9;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        text-align: center;
-        flex: 1;
-    }
-
-    .box {
-        border-radius: 10px;
-        padding: 20px;
-        color: white;
-        text-align: left;
-        margin: 10px;
-        width: 30%;
-        box-sizing: border-box;
-        position: relative;
-        font-size: 16px;
-        line-height: 1.5;
-    }
-
-    .box h3 {
-        margin-top: 0;
-        font-size: 20px;
-        text-align: center;
-    }
-
-    .box p {
-        margin: 10px 0;
-    }
-
-    .box i {
-        font-size: 40px;
-        margin-bottom: 10px;
-    }
-
-    .box.red {
-        background-color: #D62828;
-    }
-
-    .box.yellow {
-        background-color: #FCBF49;
-        color: #333;
-    }
-
-    .box.green {
-        background-color: #F77F00;
-    }
-
-    .box a {
-        display: block;
-        text-align: center;
-    }
-
-    .box button {
-        display: block;
-        text-align: center;
-    }
-
-    .box h5 {
-        font-size: 18px;
-        text-align: center;
-    }
-
-    .arrow {
-        font-size: 40px;
-        margin: 0 5px;
-    }
-
-    .results-row {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start; /* Align to the left */
-        flex-wrap: nowrap;
-    }
-
-    .results-row .box {
-        flex: 1 1 auto;
-        margin: 10px;
-    }
-
-    .top-bar {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .search-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    input[type="text"] {
-        width: 300px;
-        padding: 10px;
-        margin: 10px 10px 10px 0;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-    }
-
-    .feedback-button {
-        width: 100px;
-    }
-
-    button {
-        padding: 10px 20px;
-        margin: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        box-sizing: border-box;
-    }
-
-    button:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
-    }
-
-    button#find-jobs-btn {
-        background-color: #F77F00;
-        color: white;
-    }
-
-    button#find-alumni-btn {
-        background-color: #003049;
-        color: white;
-    }
-
-    .notification {
-        display: none;
-        background-color: #F77F00;
-        color: #333;
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        text-align: center;
-        font-size: 16px;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-
-    .error {
-        background-color: #f44336;
-        color: white;
-    }
-
-    .blinking {
-        animation: blinker 2s linear infinite;
-    }
-
-    @keyframes blinker {
-        50% { opacity: 0; }
-    }
-
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1005;
-        color: white;
-        font-size: 24px;
-        display: none;
-    }
-
-    .dashboard {
-        width: 250px;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        overflow-y: auto;
-        z-index: 100;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center; /* Center content horizontally */
-    }
-
-    .dashboard h2 {
-        margin-top: 0;
-    }
-
-    .gauge-container {
-        position: relative;
-        height: 200px;
-        width: 100%;
-        display: flex;
-        justify-content: center; /* Center the gauge horizontally */
-        align-items: center; /* Center the gauge vertically */
-    }
-
-    .gauge {
-        height: 100%;
-        width: 100%;
-    }
-
-    .goal-container {
-        margin-top: 20px;
-        font-size: 16px;
+    
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f9f9;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .main-content {
+            display: flex;
+            flex-direction: row;
+        }
+    
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            flex: 1;
+        }
+    
+        .box {
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+            text-align: left;
+            margin: 10px;
+            width: 30%;
+            box-sizing: border-box;
+            position: relative;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    
+        .box h3 {
+            margin-top: 0;
+            font-size: 20px;
+            text-align: center;
+        }
+    
+        .box p {
+            margin: 10px 0;
+        }
+    
+        .box i {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+    
+        .box.red {
+            background-color: #D62828;
+        }
+    
+        .box.yellow {
+            background-color: #FCBF49;
+            color: #333;
+        }
+    
+        .box.green {
+            background-color: #F77F00;
+        }
+    
+        .box a {
+            display: block;
+            text-align: center;
+        }
+    
+        .box button {
+            display: block;
+            text-align: center;
+        }
+    
+        .box h5 {
+            font-size: 18px;
+            text-align: center;
+        }
+    
+        .arrow {
+            font-size: 40px;
+            margin: 0 5px;
+        }
+    
+        .results-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Align to the left */
+            flex-wrap: nowrap;
+        }
+    
+        .results-row .box {
+            flex: 1 1 auto;
+            margin: 10px;
+        }
+    
+        .top-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin: 10px 10px 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+    
+        .feedback-button {
+            width: 100px;
+        }
+    
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+    
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    
+        button#find-jobs-btn {
+            background-color: #F77F00;
+            color: white;
+        }
+    
+        button#find-alumni-btn {
+            background-color: #003049;
+            color: white;
+        }
+    
+        .notification {
+            display: none;
+            background-color: #F77F00;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+    
+        .error {
+            background-color: #f44336;
+            color: white;
+        }
+    
+        .blinking {
+            animation: blinker 2s linear infinite;
+        }
+    
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+    
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1005;
+            color: white;
+            font-size: 24px;
+            display: none;
+        }
+    
+        .dashboard {
+            width: 250px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            overflow-y: auto;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center; /* Center content horizontally */
+            margin-right: 20px; /* Add margin to ensure it does not overlap */
+        }
+    
+        .dashboard h2 {
+            margin-top: 0;
+        }
+    
+        .gauge-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+            display: flex;
+            justify-content: center; /* Center the gauge horizontally */
+            align-items: center; /* Center the gauge vertically */
+        }
+    
+        .gauge {
+            height: 100%;
+            width: 100%;
+        }
+    
+        .goal-container {
+            margin-top: 20px;
+            font-size:
+            font-size: 16px;
     }
 
     .goal-amount {
@@ -567,6 +308,17 @@
         .results-row {
             flex-wrap: wrap;
         }
+
+        .main-content {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dashboard {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
     }
 
     @media (max-width: 768px) {
@@ -578,6 +330,11 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
+        }
+
+        .container {
+            padding-left: 0;
+            padding-right: 0;
         }
 
         .box {
@@ -603,53 +360,67 @@
         .arrow {
             margin: 10px 0;
         }
+
+        .main-content {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dashboard {
+            width: 100%;
+            margin-right: 0;
+        }
     }
 </style>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/eve.js/0.8.4/eve.min.js" integrity="sha512-FKlMg/J+rIndvRcg/k9sfRN5mLR6130qnp0XFYHnjqNiROfwFnFvqqBP00KqM2BTu8YKXsdImnGZ/A7C+A0qZg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js" integrity="sha512-tBzZQxySO5q5lqwLWfu8Q+o4VkTcRGOeQGVQ0ueJga4A1RKuzmAu5HXDOXLEjpbKyV7ow9ympVoa6wZLEzRzDg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.6.1/justgage.min.js" integrity="sha512-QeISJM4NCnUgZl5++o/2d4FwppF+Hh62RbNeA9paupnQvq5KAVvf2ZN3KD99EDoqcSHi1kbG13JMyRXDKBQBSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
-    <div class="dashboard">
-        <h2>Connection Dashboard</h2>
-        <h3>Copy and Send Requests to increase connections</h3>
-        <p>Email: <span id="user-email"></span></p>
-        <p>Connections You've Sent: <span id="user-connections"></span></p>
-        <p>Percentile on App: <span id="user-percentile"></span>%</p>
-        <div class="gauge-container">
-            <div id="gauge" class="gauge"></div>
-        </div>
-        <div class="goal-container">
-            Goal: Send out <span id="goal-amount"></span> connection requests
-        </div>
-    </div>
-    <div class="container">
-        <div class="top-bar">
-            <h1>Results From Search</h1>
-            <div class="search-container">
-                <input type="text" id="search-term" placeholder="Enter search term (Ex. Software Engineer)">
-                <input type="text" id="school-name" placeholder="Enter school name. (Ex: Colgate University)" value="">
-                <button id="find-jobs-btn">Locate Jobs First</button>
-                <button id="find-alumni-btn" disabled>Find Alumni From Company</button>
-                <button onclick="window.location.href='/feedback'" class="feedback-button">Please Submit Feedback</button>
+    <div class="main-content">
+        <div class="dashboard">
+            <h2>Connection Dashboard</h2>
+            <h3>Copy and Send Requests to increase connections</h3>
+            <p>Email: <span id="user-email"></span></p>
+            <p>Connections You've Sent: <span id="user-connections"></span></p>
+            <p>Percentile on App: <span id="user-percentile"></span>%</p>
+            <div class="gauge-container">
+                <div id="gauge" class="gauge"></div>
+            </div>
+            <div class="goal-container">
+                Goal: Send out <span id="goal-amount"></span> connection requests
             </div>
         </div>
-        <div class="notification" id="notification">
-            Welcome! Start connecting by copying sample connection request, click profile and send request!
-        </div>
-        <div id="results-container">
-            <div class="column-titles">
-                <h2 class="column-title">Here are the Job Details</h2>
-                <h2 class="column-title">Generated Connection Request</h2>
-                <h2 class="column-title">Alumni to Contact</h2>
+        <div class="container">
+            <div class="top-bar">
+                <h1>Results From Search</h1>
+                <div class="search-container">
+                    <input type="text" id="search-term" placeholder="Enter search term (Ex. Software Engineer)">
+                    <input type="text" id="school-name" placeholder="Enter school name. (Ex: Colgate University)" value="">
+                    <button id="find-jobs-btn">Locate Jobs First</button>
+                    <button id="find-alumni-btn" disabled>Find Alumni From Company</button>
+                    <button onclick="window.location.href='/feedback'" class="feedback-button">Please Submit Feedback</button>
+                </div>
             </div>
-            <!-- Job and alumni results will be appended here -->
-        </div>
-        <div id="overlay" class="overlay">
-            <span id="overlayText">Loading...</span>
+            <div class="notification" id="notification">
+                Welcome! Start connecting by copying sample connection request, click profile and send request!
+            </div>
+            <div id="results-container">
+                <div class="column-titles">
+                    <h2 class="column-title">Here are the Job Details</h2>
+                    <h2 class="column-title">Generated Connection Request</h2>
+                    <h2 class="column-title">Alumni to Contact</h2>
+                </div>
+                <!-- Job and alumni results will be appended here -->
+            </div>
+            <div id="overlay" class="overlay">
+                <span id="overlayText">Loading...</span>
+            </div>
         </div>
     </div>
+    
 
     <script>
         const resultsContainer = document.getElementById('results-container');
