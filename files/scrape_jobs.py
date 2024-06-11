@@ -68,9 +68,9 @@ def handshake_job_search(search_term, job_type):
 def indeed_job_search(search_term, job_type):
     try:
         return scrape_jobs(
-            site_name=["glassdoor", "indeed"],
+            site_name=["indeed"],
             search_term=search_term,
-            results_wanted=35,
+            results_wanted=50,
             country_indeed="USA",
             job_type=job_type,
             linkedin_fetch_description=False,
