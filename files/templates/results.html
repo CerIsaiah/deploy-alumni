@@ -603,6 +603,7 @@
                 if (data.error) {
                     alert(data.error);
                 } else {
+                    console.log(data);
                     createDashboard(data.connections, data.percentile, data.name);
                 }
             } catch (error) {
@@ -810,19 +811,7 @@
                 levelColors: ["#ff0000", "#f9c802", "#a9d70b"]
             });
 
-            // Fetch user data
-            fetch('/check_session')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.logged_in) {
-                        document.getElementById('user-email').textContent = sessionStorage.getItem('user_email');
-                        document.getElementById('user-connections').textContent = sessionStorage.getItem('user_connections');
-                        document.getElementById('user-percentile').textContent = sessionStorage.getItem('user_percentile');
-                        gauge.refresh(sessionStorage.getItem('user_connections'));
-                        const goalAmount = Math.ceil(sessionStorage.getItem('user_connections') / 5) * 5;
-                        document.getElementById('goal-amount').textContent = goalAmount;
-                    }
-                });
+            
         }
     </script>
 </body>

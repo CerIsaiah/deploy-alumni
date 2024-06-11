@@ -562,4 +562,4 @@ def do_main():
         db.create_all() """
     app.run(debug=True, port=5000)
 
-#do_main()
+do_main()
