@@ -12,7 +12,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job and Alumni Finder</title>
+    <title>Alumni Insider</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -61,7 +61,7 @@
             color: rgb(63, 59, 59);
         }
         .main-section h1 {
-            font-size: 48px;
+            font-size: 42px;
             margin: 0;
         }
         .main-section h4 {
@@ -309,12 +309,15 @@
             font-size: 40px;
             margin: 0 5px;
             }
+            .smaller-p {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <div>Job and Alumni Finder</div>
+        <div>Alumni Insider</div>
         <a href="/logout" id="logout-btn" class="login-button" style="display: none;">Logout</a>
         <a href="/login" id="login-btn" class="login-button">Login</a>
     </div>
@@ -332,8 +335,9 @@
 
     <div class="main-section">
         <div class="title-description-container">
-            <h1>Are You a Student Looking For a Internship/Job?</h1>
-            <p>Gain access to insider alumni at companies hiring NOW!</p>
+            <h1>Are You a Student Looking For a Referrals to Open Jobs?</h1>
+            <p> Find Alumni Working at Companies Hiring NOW!</p>
+            <h5>Note: Tool will ONLY show <strong>recent</strong> jobs with alumni working there. Sourced from Handshake and Indeed.</p>
         </div>
         <div class="search-container" style="width: 100%; max-width: 800px;">
             <div class="search-boxes">
@@ -353,30 +357,29 @@
             </div>
             <div class="button-container">
                 <button id="find-jobs-btn">Locate Jobs First</button>
-                <p>➡️</p>
-                <button id="find-alumni-btn" disabled>Then Alumni at Company</button>
+                <p>Wait for load then ➡️</p>
+                <button id="find-alumni-btn" disabled>Find Alumni at Company</button>
             </div>
         </div>
-        <h4>Jobs are sourced from all across the web from popular student sites like HANDSHAKE, INDEED, and LINKEDIN.</h4>
     </div>
     
     <div class="benefits-section">
         <div class="benefits-container">
             <div class="benefit">
-                <h3>More Connections. Better Jobs. More Money.</h3>
-                <p>Building your network is essential to get access to better jobs and more <strong>money</strong></p>
+                <h3>Large Job Pool</h3>
+                <p>Jobs searches across approx 200 open jobs to find open positions, then scrapes google for alumni</p>
             </div>
             <div class="benefit">
                 <h3>Sourced across the Web</h3>
-                <p> Jobs are sourced from all across the web including popular student sites like <strong>HANDSHAKE, INDEED, and GLASSDOOR</strong> </p>
+                <p> Jobs are sourced from all across the web including popular student sites like <strong>HANDSHAKE, and INDEED</strong> </p>
             </div>
             <div class="benefit">
-                <h3>Get More Interviews</h3>
-                <p>Our connection tool is designed to only find <strong>recent</strong> jobs that are hiring</p>
+                <h3>Stored for faster retrieval</h3>
+                <p>Every company is stored with applicable alumni after search to create faster searches</p>
             </div>
             <div class="benefit">
-                <h3>Connect Faster</h3>
-                <p>Using our tool, copy templated responses proven to get Linkedin responses </p>
+                <h3>Compare Your Stats</h3>
+                <p>Gain access to a dashboard containing number of connections you've made, as well as how you compare to other users</p>
             </div>
         </div>
     </div>

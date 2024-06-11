@@ -160,6 +160,7 @@
     
         .feedback-button {
             width: 100px;
+            background-color: #D62828;
         }
     
         button {
@@ -232,7 +233,7 @@
         .dashboard {
             width: 250px;
             padding: 20px;
-            background-color: #fff;
+            background-color: #FCBF49;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             height: 100%;
             overflow-y: auto;
@@ -264,7 +265,6 @@
     
         .goal-container {
             margin-top: 20px;
-            font-size:
             font-size: 16px;
     }
 
@@ -382,10 +382,10 @@
     <div class="main-content">
         <div class="dashboard">
             <h2>Connection Dashboard</h2>
-            <h3>Copy and Send Requests to increase connections</h3>
+            <h3>Copy and send Requests to increase connections</h3>
             <p>Email: <span id="user-email"></span></p>
-            <p>Connections You've Sent: <span id="user-connections"></span></p>
-            <p>Percentile on App: <span id="user-percentile"></span>%</p>
+            <p>(Num) Alum You've Contacted: <span id="user-connections"></span></p>
+            <p>Compared to others percentile: <span id="user-percentile"></span>%</p>
             <div class="gauge-container">
                 <div id="gauge" class="gauge"></div>
             </div>
@@ -395,7 +395,7 @@
         </div>
         <div class="container">
             <div class="top-bar">
-                <h1>Results From Search</h1>
+                <h1>Alumni at Open Positions</h1>
                 <div class="search-container">
                     <input type="text" id="search-term" placeholder="Enter search term (Ex. Software Engineer)">
                     <input type="text" id="school-name" placeholder="Enter school name. (Ex: Colgate University)" value="">
@@ -426,9 +426,9 @@
         const resultsContainer = document.getElementById('results-container');
         const columnTitlesHTML = `
             <div class="column-titles">
-                <h2 class="column-title">Job Details</h2>
-                <h2 class="column-title">Sample Connection Request</h2>
-                <h2 class="column-title">Current Insider Alumni</h2>
+                <h2 class="column-title">Here are the Job Details (Posted Within a Week)</h2>
+                <h2 class="column-title">Request that will be copied</h2>
+                <h2 class="column-title">Connect with These Alumni at Company</h2>
             </div>
         `;
         let goalAmount = 5;
@@ -439,7 +439,7 @@
             const overlayText = document.getElementById('overlayText');
             if (overlay && overlayText) {
                 overlay.style.display = 'flex';
-                overlayText.textContent = `${message} Estimated time: ${duration} seconds`;
+                overlayText.textContent = `${message} estimated time load: ${duration} seconds`;
 
                 let remainingTime = duration;
                 countdownInterval = setInterval(() => {
@@ -537,6 +537,10 @@
             const alumniBox = document.createElement('div');
             alumniBox.classList.add('box', 'green');
 
+            const title = document.createElement('h3');
+            title.textContent = `Alumni at ${companyName}`;
+            alumniBox.appendChild(title);
+
             const icon = document.createElement('i');
             icon.classList.add('fas', 'fa-bullseye');
             alumniBox.appendChild(icon);
@@ -608,7 +612,7 @@
         }
 
         async function fetchJobsAndIndividuals(searchTerm, schoolName) {
-            showOverlay('Finding jobs and alumni', 22);
+            showOverlay('Did you know your dashboard displays the number of connections you have sent?', 22);
             const response = await fetch('/search_jobs_and_individuals', {
                 method: 'POST',
                 headers: {
@@ -689,7 +693,7 @@
             const isLoggedIn = await checkSession();
 
             if (isLoggedIn) {
-                showOverlay('Finding jobs', 20);
+                showOverlay('If your school is too small, or search too specific.. good luck', 20);
                 const findJobsBtn = document.getElementById('find-jobs-btn');
                 findJobsBtn.disabled = true;
                 document.getElementById('find-alumni-btn').disabled = true;
@@ -801,8 +805,8 @@
                 value: 0,
                 min: 0,
                 max: goalAmount,
-                title: "Connections You've Sent",
-                label: "Connections You've Sent",
+                title: "Alum You Contacted",
+                label: "Alum You Contacted",
                 levelColors: ["#ff0000", "#f9c802", "#a9d70b"]
             });
 
