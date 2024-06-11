@@ -106,12 +106,15 @@
             border-radius: 5px;
             padding: 10px;
             background-color: rgba(255, 255, 255, 0.8);
+            width: 100%; /* Ensure the search box takes the full width of the container */
         }
         .search-box input, .dropdown select {
             border: none;
             outline: none;
             font-size: 18px;
             background: none;
+            width: 100%; /* Ensure the input field takes the full width of the search box */
+            min-width: 300px; /* Set a minimum width for the input field */
         }
         .dropdown select {
             padding: 5px;
@@ -293,6 +296,10 @@
                 flex: 1 1 100%;
                 min-width: 0;
             }
+            .arrow {
+            font-size: 40px;
+            margin: 0 5px;
+            }
         }
     </style>
 </head>
@@ -317,15 +324,15 @@
     <div class="main-section">
         <div class="title-description-container">
             <h1>Are You a Student Looking For a Internship/Job?</h1>
-            <p>Gain access to insiders at companies hiring NOW</p>
+            <p>Gain access to insider alumni at companies hiring NOW!</p>
         </div>
-        <div class="search-container">
+        <div class="search-container" style="width: 100%; max-width: 800px;">
             <div class="search-boxes">
                 <div class="search-box">
-                    <input type="text" id="search-term" placeholder="Enter job you want">
+                    <input type="text" id="search-term" placeholder="Desired Job (Ex. Software Engineer)">
                 </div>
                 <div class="search-box">
-                    <input type="text" id="school-name" placeholder="Enter your school name" value="Colgate University">
+                    <input type="text" id="school-name" placeholder="Your School (Ex. Colgate University)" >
                 </div>
                 <div class="dropdown">
                     <select id="job-type">
@@ -336,11 +343,12 @@
                 </div>
             </div>
             <div class="button-container">
-                <button id="find-jobs-btn">Find Jobs</button>
-                <button id="find-alumni-btn" disabled>Find Alumni</button>
+                <button id="find-jobs-btn">Locate Jobs First</button>
+                <p>➡️</p>
+                <button id="find-alumni-btn" disabled>Then Alumni at Company</button>
             </div>
         </div>
-        <h4>Jobs are sourced from all across the web including popular student sites like HANDSHAKE, INDEED, and GLASSDOOR</h4>
+        <h4>Jobs are sourced from all across the web from popular student sites like HANDSHAKE, INDEED, and LINKEDIN.</h4>
     </div>
     
     <div class="benefits-section">

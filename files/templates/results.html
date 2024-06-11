@@ -185,7 +185,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            z-index: 1005;
             color: white;
             font-size: 24px;
             display: none;
@@ -200,10 +200,11 @@
             left: 0;
             height: 100%;
             overflow-y: auto;
-            z-index: 1002;
+            z-index: 100;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center content horizontally */
+            align-items: center;
+            text-align: center; /* Center content horizontally */
         }
         .dashboard h2 {
             margin-top: 0;
@@ -244,6 +245,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-align: center;
         }
         
         .box {
@@ -273,36 +275,37 @@
 </head>
 <body>
     <div class="dashboard">
-        <h2>Dashboard</h2>
+        <h2>Connection Dashboard</h2>
+        <h3>Copy and Send Requests to increase connections</h3>
         <p>Email: <span id="user-email"></span></p>
-        <p>Connections: <span id="user-connections"></span></p>
-        <p>Percentile: <span id="user-percentile"></span>%</p>
+        <p>Connections You've Sent: <span id="user-connections"></span></p>
+        <p>Percentile on App: <span id="user-percentile"></span>%</p>
         <div class="gauge-container">
             <div id="gauge" class="gauge"></div>
         </div>
         <div class="goal-container">
-            Goal: <span id="goal-amount"></span> connections
+            Goal: Send out <span id="goal-amount"></span> connection requests
         </div>
     </div>
     <div class="container">
         <div class="top-bar">
-            <h1>Job and Alumni Results</h1>
+            <h1>Results From Search</h1>
             <div class="search-container">
-                <input type="text" id="search-term" placeholder="Enter search term">
-                <input type="text" id="school-name" placeholder="Enter school name" value="Colgate University">
-                <button id="find-jobs-btn">Find Jobs</button>
-                <button id="find-alumni-btn" disabled>Find Alumni</button>
-                <button onclick="window.location.href='/feedback'" class="feedback-button">Submit Feedback</button>
+                <input type="text" id="search-term" placeholder="Enter search term (Ex. Software Engineer)">
+                <input type="text" id="school-name" placeholder="Enter school name. (Ex: Colgate University)" value="">
+                <button id="find-jobs-btn">Locate Jobs First</button>
+                <button id="find-alumni-btn" disabled>Find Alumni From Company</button>
+                <button onclick="window.location.href='/feedback'" class="feedback-button">Please Submit Feedback</button>
             </div>
         </div>
         <div class="notification" id="notification">
-            Welcome! Use the search bar to find jobs and alumni.
+            Welcome! Start connecting by copying sample connection request, click profile and send request!
         </div>
         <div id="results-container">
             <div class="column-titles">
-                <h2 class="column-title">Job Details</h2>
-                <h2 class="column-title">Sample Connection Request</h2>
-                <h2 class="column-title">Current Insider Alumni</h2>
+                <h2 class="column-title">Here are the Job Details</h2>
+                <h2 class="column-title">Generated Connection Request</h2>
+                <h2 class="column-title">Alumni to Contact</h2>
             </div>
             <!-- Job and alumni results will be appended here -->
         </div>
@@ -358,7 +361,7 @@
             notification.style.display = 'block';
             setTimeout(() => {
                 notification.style.display = 'none';
-            }, 10000);
+            }, 12000);
         }
 
         function createJobBox(job) {
@@ -380,7 +383,7 @@
             ] = details;
 
             const companyNameElem = document.createElement('h3');
-            companyNameElem.textContent = companyName;
+            companyNameElem.textContent = `Job found at: ${companyName}`;
             jobBox.appendChild(companyNameElem);
 
             const positionElem = document.createElement('h4');
@@ -413,6 +416,10 @@
             icon.classList.add('fas', 'fa-lightbulb');
             sampleRequestBox.appendChild(icon);
 
+            const title = document.createElement('h3');
+            title.textContent = 'Sample Connection Request';
+            sampleRequestBox.appendChild(title);
+
             const sampleRequest = document.createElement('p');
             sampleRequest.textContent = `Dear [Name], I came across your profile and noticed that you are currently working at ${companyName}. I am very interested in learning more about your experience and any opportunities available. Could we connect to discuss this further? Thank you!`;
             sampleRequestBox.appendChild(sampleRequest);
@@ -432,7 +439,7 @@
         const namePart = (person.name || person.title).split(' - ')[0];
 
         const name = document.createElement('h5');
-        name.textContent = `Name: ${namePart}`;
+        name.textContent = `Alumni Name: ${namePart}`;
         alumniBox.appendChild(name);
 
         const buttonContainer = document.createElement('div');
@@ -440,12 +447,12 @@
 
         const link = document.createElement('a');
         link.href = person.link;
-        link.textContent = 'View Profile';
+        link.textContent = 'Send Request to their Profile';
         link.target = '_blank';
         link.classList.add('button');
 
         const copyButton = document.createElement('button');
-        copyButton.textContent = 'Copy Request';
+        copyButton.textContent = 'Copy Sample Request';
         copyButton.classList.add('button');
         copyButton.addEventListener('click', () => {
             const sampleRequestText = `Dear ${namePart}, I came across your profile and noticed that you are currently working at ${companyName}. I am very interested in learning more about your experience and any opportunities available. Could we connect to discuss this further? Thank you!`;
@@ -652,10 +659,10 @@
                 document.getElementById('school-name').value = schoolName;
                 fetchJobsAndIndividuals(searchTerm, schoolName);
                 createFirstDashboard();
-                showNotification("Welcome! Use the search bar to find jobs and alumni.", false);
+                showNotification("Welcome! Start connecting by copying sample connection request, click profile and send request!", false);
             } else {
                 createFirstDashboard();
-                showNotification("Welcome! Use the search bar to find jobs and alumni.", false);
+                showNotification("Welcome! Start connecting by copying sample connection request, click profile and send request!", false);
             }
         });
         let gauge;
