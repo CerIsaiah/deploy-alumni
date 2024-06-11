@@ -336,6 +336,13 @@ async def search_jobs_and_individuals_endpoint():
     school_name = data.get("school_name")
     
     try:
+        search_term = search_term.title()
+        school_name = school_name.title()
+
+
+        if "College".title() not in school_name or "University".title() not in school_name:
+            school_name += " University"
+        logger.info(school_name)
         start_request_time = time.time()
 
          # Get the most recent jobs based on updated_at

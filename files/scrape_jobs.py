@@ -57,7 +57,7 @@ def handshake_job_search(search_term, job_type):
         job_types = job_types_mapping.get(job_type)
         employment_type = employment_type_mapping.get(job_type)
 
-        handshake_url = construct_url(query=search_term, job_type=job_types, employment_type=employment_type, per_page=50)
+        handshake_url = construct_url(query=search_term, job_type=job_types, employment_type=employment_type, per_page=60)
         save_ids = search_handshake(handshake_url)  # Assume synchronous version
         handshake_jobs = get_descriptions(save_ids)  # Assume synchronous version
         return handshake_jobs
