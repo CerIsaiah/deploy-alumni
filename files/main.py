@@ -39,7 +39,8 @@ oauth.register(
     name='google',
     client_id=os.getenv('OAUTH_CLIENT_ID'),
     client_secret=os.getenv('OAUTH_CLIENT_SECRET'),
-    server_metadata_url=os.getenv('OAUTH_META_URL')
+    server_metadata_url=os.getenv('OAUTH_META_URL'),
+    scope='openid email profile',
 )
 
 class Company(db.Model):
@@ -113,11 +114,11 @@ proxies_list = [
 
 @app.route('/login')
 def google_login():
-    return oauth.myApp.authorize_redirect(redirect_uri=url_for("googleCallback", _external=True))
+    return oauth.google.authorize_redirect(redirect_uri=url_for("googleCallback", _external=True))
 
 @app.route('/google-login')
 def googleCallback():
-    token = oauth.myApp.authorize_access_token()
+    token = oauth.google.authorize_access_token()
     user_info = token.get('userinfo')
     print(user_info)
     if user_info:
@@ -548,12 +549,8 @@ def feedback():
 
 
 
-        
-if __name__ == "__main__":
+def do_main():
     with app.app_context():
-        #db.drop_all()
+        db.drop_all()
         db.create_all()
-    app.run(debug=True)
-
-
-
+    app.run(debug=True, port=5000)
